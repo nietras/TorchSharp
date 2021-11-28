@@ -4,6 +4,8 @@
 #include "torch/torch.h"
 #include "torch/cuda.h"
 
+#include "ATen/cuda/CUDAContext.h"
+
 void THSTorch_manual_seed(const int64_t seed)
 {
     torch::manual_seed(seed);
@@ -85,6 +87,10 @@ EXPORT_API(void) THSTorchCuda_synchronize(const int64_t device_index)
     CATCH(torch::cuda::synchronize(device_index);)
 }
 
+int THSTorchCuda_device_properties(const int64_t device_index)
+{
+    auto props = at::cuda::getDeviceProperties(device_index);
+}
 
 const char * THSTorch_get_and_reset_last_err()
 {
